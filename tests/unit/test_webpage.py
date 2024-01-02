@@ -3,8 +3,8 @@ import ddt
 import testtools
 
 from seo_report import webpage
-from seo_report.warnings import BADGES
-from seo_report.warnings import WARNINGS
+from seo_report.report_warnings import BADGES
+from seo_report.report_warnings import WARNINGS
 
 
 @ddt.ddt
