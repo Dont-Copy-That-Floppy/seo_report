@@ -1,6 +1,13 @@
-from seo_report import webpage
-from seo_report.warnings import WARNINGS
-from seo_report.warnings import BADGES
+try:
+    import webpage
+    import report_warnings
+    BADGES = report_warnings.BADGES
+    WARNINGS = report_warnings.WARNINGS
+except:
+    from seo_report import webpage
+    from seo_report.report_warnings import WARNINGS
+    from seo_report.report_warnings import BADGES
+
 
 from bs4 import BeautifulSoup as Soup
 import requests
@@ -11,7 +18,10 @@ class Spider(object):
     report = {"pages": []}
 
     def __init__(self, site, sitemap=None, page=None):
-        parsed_url = parse.urlparse(site)
+        if(site):
+            parsed_url = parse.urlparse(site)
+        elif(page):
+            parsed_url = parse.urlparse(page)
 
         self.domain = "{0}://{1}".format(parsed_url.scheme, parsed_url.netloc)
         self.pages_crawled = []
@@ -31,6 +41,8 @@ class Spider(object):
 
             self.pages_to_crawl.append(site)
             self.pages_to_crawl.extend(locations)
+        elif page is not None and site is None:
+            self.pages_to_crawl.append(page)
         elif page is not None:
             self.pages_to_crawl.append(site + page)
         else:
@@ -55,11 +67,12 @@ class Spider(object):
 
     def _analyze_crawlers(self):
         # robots.txt present
-        resp = requests.get(self.domain + "/robots.txt")
-        if resp.status_code == requests.codes.ok:
-            self.earned(BADGES["ROBOTS.TXT"])
-        else:
-            self.warn(WARNINGS["ROBOTS.TXT"])
+        if(self.domain != None):
+            resp = requests.get(self.domain + "/robots.txt")
+            if resp.status_code == requests.codes.ok:
+                self.earned(BADGES["ROBOTS.TXT"])
+            else:
+                self.warn(WARNINGS["ROBOTS.TXT"])
 
     def _analyze_blog(self):
         # does the website have a blog present
@@ -115,7 +128,7 @@ class Spider(object):
 
                 print("Crawled {0} Pages of {1}: {2}".format(
                     len(self.pages_crawled), len(self.pages_to_crawl), page_url))
-            
+
             elif resp.status_code == requests.codes.not_found:
                 self.warn(WARNINGS["BROKEN_LINK"], page_url)
             else:

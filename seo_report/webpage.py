@@ -4,9 +4,15 @@ import re
 import requests
 from six.moves.urllib import parse
 
-from seo_report.stop_words import ENGLISH_STOP_WORDS
-from seo_report.warnings import BADGES
-from seo_report.warnings import WARNINGS
+try:
+    from stop_words import ENGLISH_STOP_WORDS
+    import report_warnings
+    BADGES = report_warnings.BADGES
+    WARNINGS = report_warnings.WARNINGS
+except:
+    from seo_report.stop_words import ENGLISH_STOP_WORDS
+    from seo_report.report_warnings import BADGES
+    from seo_report.report_warnings import WARNINGS
 
 TOKEN_REGEX = re.compile(r'(?u)\b\w\w+\b')
 SOCIAL_WEBSITES = [
@@ -16,7 +22,6 @@ SOCIAL_WEBSITES = [
     "www.instagram.com",
     "www.pinterest.com"
 ]
-
 
 class Webpage(object):
     url = None
@@ -297,8 +302,8 @@ class Webpage(object):
             # Avoid comment spam to external websites
             if len(parse.urlparse(tag_href).netloc) > 0:
                 if self.netloc not in tag_href:
-                    if not(any(social_site in tag_href
-                               for social_site in SOCIAL_WEBSITES)):
+                    if not (any(social_site in tag_href
+                                for social_site in SOCIAL_WEBSITES)):
                         if tag.get('rel') is None \
                                 or 'nofollow' not in tag.get('rel'):
                             self.warn(WARNINGS["ANCHOR_NO_FOLLOW"], tag_href)

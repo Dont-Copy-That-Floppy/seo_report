@@ -1,7 +1,14 @@
 import argparse
 import json
+import sys
+import os
+from six.moves.urllib import parse
+from datetime import datetime
 
-from seo_report import website
+try:
+    import website
+except:
+    from seo_report import website
 
 
 def create_parser():
@@ -10,7 +17,7 @@ def create_parser():
     )
 
     parser.add_argument(
-        '-d', '--domain', type=str, required=True,
+        '-d', '--domain', type=str, required=False,
         help='Website domain to analyze'
     )
 
@@ -20,10 +27,9 @@ def create_parser():
     )
 
     parser.add_argument(
-         '-p', '--page', type=str, required=False,
+        '-p', '--page', type=str, required=False,
         help='Single Page to analyze'
     )
-
 
     return parser
 
@@ -38,9 +44,20 @@ def analyze(domain, sitemap, page):
 def main():
     parser = create_parser()
     args = parser.parse_args()
+    print("Crawling now...")
     report = analyze(args.domain, args.sitemap, args.page)
+    if (args.domain):
+        parsed_url = parse.urlparse(args.domain)
+    elif (args.page):
+        parsed_url = parse.urlparse(args.page)
 
-    print(report)
+    if (not os.path.isdir('reports')):
+        os.mkdir('reports')
+    date_String = datetime.now()
+    with open('reports/%s-%s' % (parsed_url.netloc, datetime.strptime(date_String, '%d/%b/%Y-%H-%M-%S')), 'wb') as file:
+        file.write(json.dumps(report))
+    print("Report written. Crawl done.")
+
 
 if __name__ == "__main__":
     main()

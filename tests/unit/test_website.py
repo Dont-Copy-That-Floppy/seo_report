@@ -7,8 +7,8 @@ import uuid
 from bs4 import BeautifulSoup as Soup
 
 from seo_report import website
-from seo_report.warnings import WARNINGS
-from seo_report.warnings import BADGES
+from seo_report.report_warnings import WARNINGS
+from seo_report.report_warnings import BADGES
 
 
 @ddt.ddt
