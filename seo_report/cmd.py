@@ -53,9 +53,9 @@ def main():
 
     if (not os.path.isdir('reports')):
         os.mkdir('reports')
-    date_String = datetime.now()
-    with open('reports/%s-%s' % (parsed_url.netloc, datetime.strptime(date_String, '%d/%b/%Y-%H-%M-%S')), 'wb') as file:
-        file.write(json.dumps(report))
+    date_string = datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
+    with open('reports/%s-%s.json' % (parsed_url.netloc, date_string), 'wb') as file:
+        file.write(report.encode('utf-8'))
     print("Report written. Crawl done.")
 
 
