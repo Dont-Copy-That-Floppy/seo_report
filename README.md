@@ -1,11 +1,10 @@
-SEO Report
-==========
-Updated by ya boi to work with zero install, single page, site fixes, and produce a json file report. Later going to add an interface to produce somee legit dl.... eh 👊 Clean up your room!
-
 [![Build Status](https://travis-ci.org/drawbuildplay/seo_report.svg?branch=master)](https://travis-ci.org/drawbuildplay/seo_report)
 [![Coverage Status](https://coveralls.io/repos/github/drawbuildplay/seo_report/badge.svg?branch=master)](https://coveralls.io/github/drawbuildplay/seo_report?branch=master)
 [![Requirements Status](https://requires.io/github/drawbuildplay/seo_report/requirements.svg?branch=master)](https://requires.io/github/drawbuildplay/seo_report/requirements/?branch=master)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/drawbuildplay/seo_report/master/LICENSE)
+SEO Report
+==========
+Updated by ya boi to work with zero install, single page, site fixes, and produce a json file report. Later going to add an interface to produce somee legit dl.... eh 👊 Clean up your room!
 
 Scan your website for On Page Search Experience Optimization issues based on 
 the SEO guidelines from Google's SEO Starter Guide:
